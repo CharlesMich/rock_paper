@@ -8,14 +8,81 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    
+    @State private var playerChoice = ""
+    @State private var appChoice = ""
+    @State private var result = ""
+    
+    
+    let choices = ["rock", "paper", "scissor"]
+    
+    func whoWon(){
+        if playerChoice == "rock"{
+            if appChoice == "rock"{
+                result = "tie"
+            }
+            else if appChoice == "paper" {
+                result = "lose"
+            } else if appChoice == "scissor" {
+                result = "win"
+            } else {
+                return
+            }
         }
-        .padding()
+        if playerChoice == "paper"{
+            if appChoice == "rock"{
+                result = "win"
+            }
+            else if appChoice == "paper" {
+                result = "tie"
+            } else if appChoice == "scissor" {
+                result = "lose"
+            } else {
+                return
+            }
+        }
+        if playerChoice == "scissor"{
+            if appChoice == "rock"{
+                result = "lose"
+            }
+            else if appChoice == "paper" {
+                result = "win"
+            } else if appChoice == "scissor" {
+                result = "tie"
+            } else {
+                return
+            }
+        }
+    }
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                ForEach (choices, id:\.self){ choice in
+                    Button {
+                        playerChoice = choice
+                        appChoice = choices[Int.random(in: 0..<choices.count)]
+                        whoWon()
+                    } label: {
+                        Text(choice)
+                    }
+                }
+                
+                Text(playerChoice == "" ? "" : "You chose \(playerChoice) and the app chose \(appChoice)")
+                Text(result == "" ? "" : "you \(result)")
+                
+                Button {
+                    appChoice = ""
+                    playerChoice = ""
+                    result = ""
+                } label: {
+                    Text("Reset")
+                }
+            }
+            .padding()
+            .navigationTitle("Rock, Paper, Scissor")
+        }
+       
     }
 }
 
