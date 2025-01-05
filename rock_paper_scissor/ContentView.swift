@@ -58,19 +58,29 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                Spacer()
                 ForEach (choices, id:\.self){ choice in
                     Button {
                         playerChoice = choice
                         appChoice = choices[Int.random(in: 0..<choices.count)]
                         whoWon()
                     } label: {
-                        Text(choice)
+                        VStack{
+                            Text(choice)
+                                .foregroundStyle(.white)
+                                .frame(width: 300, height: 50)
+                        }
+                        .background(Color.red)
+                       
+                        .clipShape(.capsule)
+                      
+                           
                     }
                 }
-                
+                Spacer()
                 Text(playerChoice == "" ? "" : "You chose \(playerChoice) and the app chose \(appChoice)")
                 Text(result == "" ? "" : "you \(result)")
-                
+                Spacer()
                 Button {
                     appChoice = ""
                     playerChoice = ""
